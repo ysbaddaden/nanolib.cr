@@ -1,0 +1,10 @@
+version: 2.0
+shards:
+  microtest:
+    path: ../microtest.cr
+    version: 0.1.0
+
+  nano:
+    path: ../nanolib.cr
+    version: 0.1.0
+

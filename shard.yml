@@ -1,0 +1,13 @@
+name: nano
+version: 0.1.0
+
+authors:
+  - Julien Portalier <julien@portalier.com>
+
+crystal: ">= 1.0.0"
+
+development_dependencies:
+  microtest:
+    path: ../microtest.cr
+
+license: MIT
