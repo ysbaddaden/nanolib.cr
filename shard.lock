@@ -1,10 +1,10 @@
 version: 2.0
 shards:
   microtest:
-    path: ../microtest.cr
-    version: 0.1.0
+    git: https://github.com/ysbaddaden/microtest.cr.git
+    version: 0.1.0+git.commit.d637d3847142fd33fe10d92ffd399ef55a6dcea2
 
   nano:
-    path: ../nanolib.cr
-    version: 0.1.0
+    git: https://github.com/ysbaddaden/nanolib.cr.git
+    version: 0.1.0+git.commit.8c4d76bcae48ef79441aef702ec24384c1f70488
 

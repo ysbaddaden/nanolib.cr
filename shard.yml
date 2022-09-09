@@ -8,6 +8,6 @@ crystal: ">= 1.0.0"
 
 development_dependencies:
   microtest:
-    path: ../microtest.cr
+    github: ysbaddaden/microtest.cr
 
 license: MIT
