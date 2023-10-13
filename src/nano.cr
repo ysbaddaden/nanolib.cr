@@ -1,5 +1,7 @@
 require "lib_c"
 require "primitives"
+require "c/stddef"
+require "intrinsics"
 
 require "./enum"
 require "./float"

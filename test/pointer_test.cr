@@ -4,6 +4,7 @@ struct PointerTest < Microtest::Test
   def test_malloc
     ptr = Pointer(UInt8).malloc(1)
     assert ptr.is_a?(Pointer(UInt8))
+    ptr.free
   end
 
   def test_realloc
@@ -11,6 +12,7 @@ struct PointerTest < Microtest::Test
     ptr.value = 127_u8
     new_ptr = ptr.realloc(128)
     assert new_ptr.value = 127_u8
+    new_ptr.free
   end
 
   def test_null

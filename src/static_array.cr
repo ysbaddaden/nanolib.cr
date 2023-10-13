@@ -7,18 +7,26 @@ struct StaticArray(T, N)
     %array
   end
 
+  def self.new(& : Int32 -> T) : self
+    array = uninitialized self
+    N.times { |i| array.to_unsafe[i] = yield i }
+    array
+  end
+
   def []=(index : Int32, value : T)
-    check_in_bounds!(index)
+    index = check_in_bounds!(index)
     to_unsafe[index] = value
   end
 
   def [](index : Int32) : T
-    check_in_bounds!(index)
+    index = check_in_bounds!(index)
     to_unsafe[index]
   end
 
   def []?(index : Int32) : T?
-    to_unsafe[index] if in_bounds?(index)
+    if index = in_bounds?(index)
+      to_unsafe[index]
+    end
   end
 
   def size : Int32
@@ -26,7 +34,7 @@ struct StaticArray(T, N)
   end
 
   def to_slice : Slice(T)
-    Slice.new(to_unsafe, size)
+    Slice.new(to_unsafe, N)
   end
 
   def to_unsafe : Pointer(T)
@@ -35,12 +43,12 @@ struct StaticArray(T, N)
 
   private def check_in_bounds!(index : Int32)
     unless in_bounds?(index)
-      panic! "out of bounds (index=%lld, size=%lld)", index.to_u64, size.to_u64
+      panic! "out of bounds (index=%lld, size=%lld)", index.to_u64, N.to_u64
     end
   end
 
   private def in_bounds?(index : Int32) : Bool
-    index += size if index < 0
-    0 <= index < @size
+    index += N if index < 0
+    0 <= index < N
   end
 end

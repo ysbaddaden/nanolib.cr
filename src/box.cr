@@ -1,5 +1,10 @@
-# FIXME: stdlib's Box is a class and allocated in the HEAP
 struct Box(T)
+  def self.malloc(object : T) : Pointer(Box(T))
+    ptr = Pointer(self).malloc(1)
+    ptr.value.initialize(object)
+    ptr
+  end
+
   def initialize(@object : T)
   end
 

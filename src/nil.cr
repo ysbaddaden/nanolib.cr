@@ -1,21 +1,26 @@
 struct Nil
-  def object_id
+  @[AlwaysInline]
+  def object_id : UInt64
     0_u64
   end
 
-  def ==(other : self)
+  @[AlwaysInline]
+  def ==(other : self) : Bool
     true
   end
 
-  def ==(other)
+  @[AlwaysInline]
+  def ==(other) : Bool
     false
   end
 
+  @[AlwaysInline]
   def try(&block) : self
     self
   end
 
-  # def not_nil! : NoReturn
-  #   panic! "nil assertion error"
-  # end
+  @[AlwaysInline]
+  def not_nil!(message : String? = nil) : NoReturn
+    panic! message || "nil assertion error"
+  end
 end
