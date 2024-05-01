@@ -19,3 +19,5 @@ require "./string"
 require "./errno"
 require "./exception"
 require "./panic"
+
+require "./main"
