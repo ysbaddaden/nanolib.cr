@@ -27,14 +27,17 @@ struct Slice(T)
     end
   end
 
+  @[AlwaysInline]
   def size : Int32
     @size
   end
 
+  @[AlwaysInline]
   def bytesize : Int32
     sizeof(T) * @size
   end
 
+  @[AlwaysInline]
   def read_only? : Bool
     @read_only
   end
@@ -103,6 +106,7 @@ struct Slice(T)
   # def []?(range : Range(Int32, Nil)) : self?
   # end
 
+  @[AlwaysInline]
   def to_unsafe : Pointer(T)
     @pointer
   end

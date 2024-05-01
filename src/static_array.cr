@@ -29,14 +29,21 @@ struct StaticArray(T, N)
     end
   end
 
+  def each(&block : T ->) : Nil
+    to_slice.each(&block)
+  end
+
+  @[AlwaysInline]
   def size : Int32
     N
   end
 
+  @[AlwaysInline]
   def to_slice : Slice(T)
     Slice.new(to_unsafe, N)
   end
 
+  @[AlwaysInline]
   def to_unsafe : Pointer(T)
     pointerof(@buffer)
   end
