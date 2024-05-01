@@ -1,11 +1,11 @@
 struct Slice(T)
   def self.new(size : Int32, *, read_only = false)
-    ptr = Pointer(T).malloc(size.to_u64)
+    ptr = Pointer(T).malloc(size.to_u64!)
     new(ptr, size, read_only: read_only)
   end
 
   def self.new(size : Int32, *, read_only = false)
-    ptr = Pointer(T).malloc(size.to_u64)
+    ptr = Pointer(T).malloc(size.to_u64!)
     size.times { |i| ptr[i] = yield i }
     new(ptr, size, read_only: read_only)
   end
@@ -15,6 +15,16 @@ struct Slice(T)
   end
 
   def initialize(@pointer : Pointer(T), @size : Int32, *, @read_only = false)
+  end
+
+  def each(& : T ->) : Nil
+    ptr = @pointer
+    stop = ptr + @size
+
+    until ptr == stop
+      yield ptr.value
+      ptr += 1
+    end
   end
 
   def size : Int32
@@ -31,7 +41,7 @@ struct Slice(T)
 
   def +(offset : Int) : self
     check_in_bounds!(offset)
-    Slice.new(@pointer + offset, size - offset, read_only: read_only?)
+    Slice.new(@pointer + offset, size &- offset, read_only: read_only?)
   end
 
   def []=(index : Int32, value : T)
@@ -114,3 +124,5 @@ struct Slice(T)
     index if 0 <= index < @size
   end
 end
+
+alias Bytes = Slice(UInt8)

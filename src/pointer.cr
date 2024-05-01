@@ -84,11 +84,6 @@ struct Pointer(T)
   end
 
   @[AlwaysInline]
-  def null? : Bool
-    address == 0
-  end
-
-  @[AlwaysInline]
   def ==(other : self) : Bool
     address == other.address
   end
@@ -126,5 +121,14 @@ struct Pointer(T)
   @[AlwaysInline]
   def free : Nil
     LibC.free(self)
+
+    if value.responds_to?(:finalize)
+      value.finalize
+    end
+  end
+
+  @[AlwaysInline]
+  def to_unsafe
+    address
   end
 end
