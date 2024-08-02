@@ -109,13 +109,18 @@ struct Pointer(T)
   end
 
   @[AlwaysInline]
-  def memset(value : UInt8, size = 1) : Nil
+  def memset(value : UInt8, size : Int = 1) : Nil
     Intrinsics.memset(self.as(Void*), value, LibC::SizeT.new(size * sizeof(T)), false)
   end
 
   @[AlwaysInline]
   def to_slice(size : Int) : Slice(T)
     Slice.new(self, size)
+  end
+
+  @[AlwaysInline]
+  def clear(size : Int) : Nil
+    memset(0_u8, size)
   end
 
   @[AlwaysInline]
