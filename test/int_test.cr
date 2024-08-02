@@ -1,6 +1,6 @@
 require "./test_helper"
 
-struct IntTest < Microtest::Test
+struct IntTest < Nano::Test
   def test_unary_minus
     {% for bits in [8, 16, 32, 64, 128] %}
       x{{bits}} = 56_i{{bits}}

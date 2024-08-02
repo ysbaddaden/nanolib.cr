@@ -1,6 +1,6 @@
 require "./test_helper"
 
-struct EnumTest < Microtest::Test
+struct EnumTest < Nano::Test
   enum Value
     ONE
     TWO

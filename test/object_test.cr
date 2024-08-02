@@ -1,6 +1,6 @@
 require "./test_helper"
 
-struct ObjectTest < Microtest::Test
+struct ObjectTest < Nano::Test
   def test_unsafe_as
     assert UInt32::MAX.unsafe_as(Int32) == -1_i32
   end

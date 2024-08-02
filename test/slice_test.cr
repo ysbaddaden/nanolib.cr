@@ -1,6 +1,6 @@
 require "./test_helper"
 
-struct SliceTest < Microtest::Test
+struct SliceTest < Nano::Test
   def test_new
     slice = Slice(UInt8).new(1)
     assert slice.is_a?(Slice(UInt8))

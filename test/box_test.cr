@@ -1,6 +1,6 @@
 require "./test_helper"
 
-struct BoxTest < Microtest::Test
+struct BoxTest < Nano::Test
   def test_allocated_on_the_stack
     box = Box.new(123_i32)
     value = Box(Int32).unbox(pointerof(box).as(Void*))

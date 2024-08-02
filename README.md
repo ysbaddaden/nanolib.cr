@@ -52,8 +52,7 @@ Alternatively you can write your own prelude and only require the bits of nano
 you want. See `src/nano.cr` for example. This is currently required for
 microcontrollers.
 
-For running tests and specs, you might be interested in
-[microtest](https://github.com/ysbaddaden/microtest.cr).
+For running tests and specs, look at `Nano::Test` and `Nano::Spec`.
 
 ## License
 

@@ -120,11 +120,9 @@ struct Pointer(T)
 
   @[AlwaysInline]
   def free : Nil
+    v = value
+    v.finalize if v.responds_to?(:finalize)
     LibC.free(self)
-
-    if value.responds_to?(:finalize)
-      value.finalize
-    end
   end
 
   @[AlwaysInline]

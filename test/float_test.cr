@@ -1,6 +1,6 @@
 require "./test_helper"
 
-struct FloatTest < Microtest::Test
+struct FloatTest < Nano::Test
   def test_nan?
     assert Float32::NAN.nan?
     refute 1_f32.nan?

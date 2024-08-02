@@ -1,6 +1,6 @@
 require "./test_helper"
 
-struct NumberTest < Microtest::Test
+struct NumberTest < Nano::Test
   def test_zero
     assert Int8.zero == 0_i8
     assert Int16.zero == 0_i16

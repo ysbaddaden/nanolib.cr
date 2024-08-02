@@ -1,6 +1,6 @@
 require "./test_helper"
 
-struct PointerTest < Microtest::Test
+struct PointerTest < Nano::Test
   def test_malloc
     ptr = Pointer(UInt8).malloc(1)
     assert ptr.is_a?(Pointer(UInt8))

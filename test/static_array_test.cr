@@ -1,6 +1,6 @@
 require "./test_helper"
 
-struct StaticArrayTest < Microtest::Test
+struct StaticArrayTest < Nano::Test
   def test_size
     array = uninitialized UInt8[128]
     assert array.size == 128

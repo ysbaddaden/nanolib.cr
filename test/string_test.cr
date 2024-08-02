@@ -1,6 +1,6 @@
 require "./test_helper"
 
-struct StringTest < Microtest::Test
+struct StringTest < Nano::Test
   def test_bytesize
     assert "azertyuiop".bytesize == 10
     assert("日本語".bytesize == 9)

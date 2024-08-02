@@ -1,6 +1,7 @@
-require "microtest/autorun"
+require "../src/nano"
+require "../src/test"
 
-struct Microtest::Test
+struct Nano::Test
   macro assert_panic
     %start_routine = ->(data : Void*) do
       Nano.silenced_panic = true

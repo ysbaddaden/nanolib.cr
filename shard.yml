@@ -6,8 +6,4 @@ authors:
 
 crystal: ">= 1.0.0"
 
-development_dependencies:
-  microtest:
-    github: ysbaddaden/microtest.cr
-
-license: MIT
+license: Apache-2.0

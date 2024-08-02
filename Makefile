@@ -2,7 +2,7 @@
 
 CRYSTAL = crystal
 CRFLAGS =
-FILES = test/*_test.cr
+FILES = test/*_test.cr test/**/*_test.cr test/**/*_spec.cr
 OPTS = -v
 
 a.out: .phony

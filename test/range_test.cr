@@ -1,6 +1,6 @@
 require "./test_helper"
 
-struct RangeTest < Microtest::Test
+struct RangeTest < Nano::Test
   def test_initialize
     range = 0..10
     assert range.begin == 0
