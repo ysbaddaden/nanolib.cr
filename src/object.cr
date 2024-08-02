@@ -37,6 +37,17 @@ class Object
     end
   end
 
+  macro getter?(typedef)
+    {% raise "macro getter expects a typedef" unless typedef.is_a?(TypeDeclaration) %}
+
+    @{{typedef.var.id}} : {{typedef.type}}
+
+    @[AlwaysInline]
+    def {{typedef.var.id}}? : {{typedef.type}}
+      @{{typedef.var.id}}
+    end
+  end
+
   macro setter(typedef)
     {% raise "macro setter expects a typedef" unless typedef.is_a?(TypeDeclaration) %}
 
@@ -55,6 +66,22 @@ class Object
 
     @[AlwaysInline]
     def {{typedef.var.id}} : {{typedef.type}}
+      @{{typedef.var.id}}
+    end
+
+    @[AlwaysInline]
+    def {{typedef.var.id}}=(value : {{typedef.type}}) : {{typedef.type}}
+      @{{typedef.var.id}} = value
+    end
+  end
+
+  macro property?(typedef)
+    {% raise "macro property expects a typedef" unless typedef.is_a?(TypeDeclaration) %}
+
+    @{{typedef.var.id}} : {{typedef.type}}
+
+    @[AlwaysInline]
+    def {{typedef.var.id}}? : {{typedef.type}}
       @{{typedef.var.id}}
     end
 
