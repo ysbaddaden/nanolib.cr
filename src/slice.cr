@@ -111,6 +111,38 @@ struct Slice(T)
     @pointer
   end
 
+  def sort! : Nil
+    n = @size
+
+    (n // 2 &- 1).downto(0) do |i|
+      __heapify(n, i)
+    end
+
+    (n &- 1).downto(0) do |i|
+      to_unsafe[0], to_unsafe[i] = to_unsafe[i], to_unsafe[0]
+      __heapify(i, 0)
+    end
+  end
+
+  private def __heapify(n, i)
+    largest = i
+    left = 2 &* i &+ 1
+    right = 2 &* i &+ 2
+
+    if left < n && to_unsafe[left] > to_unsafe[largest]
+      largest = left
+    end
+
+    if right < n && to_unsafe[right] > to_unsafe[largest]
+      largest = right
+    end
+
+    unless largest == i
+      to_unsafe[i], to_unsafe[largest] = to_unsafe[largest], to_unsafe[i]
+      __heapify(n, largest)
+    end
+  end
+
   private def check_read_only!
     panic! "read only slice" if read_only?
   end
