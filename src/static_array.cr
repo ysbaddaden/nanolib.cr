@@ -14,17 +14,17 @@ struct StaticArray(T, N)
   end
 
   def []=(index : Int32, value : T)
-    index = check_in_bounds!(index)
+    check_in_bounds!(index)
     to_unsafe[index] = value
   end
 
   def [](index : Int32) : T
-    index = check_in_bounds!(index)
+    check_in_bounds!(index)
     to_unsafe[index]
   end
 
   def []?(index : Int32) : T?
-    if index = in_bounds?(index)
+    if in_bounds?(index)
       to_unsafe[index]
     end
   end
