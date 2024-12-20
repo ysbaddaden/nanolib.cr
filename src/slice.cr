@@ -151,7 +151,7 @@ struct Slice(T)
     if actual_index = in_bounds?(index)
       actual_index
     else
-      panic! "out of bounds (index=%lld, size=%lld)", index.to_u64, size.to_u64
+      panic! "out of bounds"
     end
   end
 

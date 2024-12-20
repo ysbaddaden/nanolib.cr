@@ -54,7 +54,7 @@ struct StaticArray(T, N)
 
   private def check_in_bounds!(index : Int32)
     unless in_bounds?(index)
-      panic! "out of bounds (index=%lld, size=%lld)", index.to_u64, N.to_u64
+      panic! "out of bounds"
     end
   end
 
