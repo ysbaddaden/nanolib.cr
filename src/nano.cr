@@ -17,6 +17,7 @@ require "./range"
 require "./slice"
 require "./static_array"
 require "./string"
+require "./tuple"
 require "./once"
 
 require "./errno"
