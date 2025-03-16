@@ -84,8 +84,18 @@ struct Pointer(T)
   end
 
   @[AlwaysInline]
+  def memcmp(other : Pointer(T), count : Int) : Int32
+    LibC.memcmp(self.as(Void*), other.as(Void*), count * sizeof(T))
+  end
+
+  @[AlwaysInline]
   def ==(other : self) : Bool
     address == other.address
+  end
+
+  @[AlwaysInline]
+  def !=(other : self) : Bool
+    address != other.address
   end
 
   @[AlwaysInline]

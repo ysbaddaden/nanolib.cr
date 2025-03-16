@@ -106,6 +106,20 @@ struct Slice(T)
   # def []?(range : Range(Int32, Nil)) : self?
   # end
 
+  def ==(other : Slice(U)) : Bool forall U
+    return false if size != other.size
+    return true if to_unsafe == other.to_unsafe
+
+    {% if T == UInt8 && U == UInt8 %}
+      to_unsafe.memcmp(other.to_unsafe, size) == 0
+    {% else %}
+      each_with_index do |elem, i|
+        return false unless elem == other.to_unsafe[i]
+      end
+      true
+    {% end %}
+  end
+
   @[AlwaysInline]
   def to_unsafe : Pointer(T)
     @pointer
