@@ -17,6 +17,7 @@ require "./range"
 require "./slice"
 require "./static_array"
 require "./string"
+require "./once"
 
 require "./errno"
 {% if flag?(:win32) %} require "./winerror" {% end %}
