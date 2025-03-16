@@ -30,3 +30,8 @@ end
 def raise(message : String) : NoReturn
   panic! message
 end
+
+# :nodoc:
+fun __crystal_raise_overflow : NoReturn
+  panic! "overflow error"
+end

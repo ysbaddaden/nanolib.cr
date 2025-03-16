@@ -19,6 +19,7 @@ require "./static_array"
 require "./string"
 
 require "./errno"
+{% if flag?(:win32) %} require "./winerror" {% end %}
 require "./exception"
 require "./panic"
 
