@@ -86,6 +86,8 @@ struct SliceTest < Nano::Test
     slice[1] = 2
     assert slice[0] == 1
     assert slice[1] == 2
+    slice[-1] = 3
+    assert slice[1] == 3
 
     assert_panic do
       other = Slice(Int32).new(2, read_only: true)
