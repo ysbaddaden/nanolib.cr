@@ -49,7 +49,7 @@ struct Slice(T)
 
   def []=(index : Int32, value : T)
     check_read_only!
-    size = check_in_bounds!(index)
+    index = check_in_bounds!(index)
     @pointer[index] = value
   end
 
