@@ -71,6 +71,16 @@ module Nano
       {offset, info.dli_sname, info.dli_fname}
     end
   {% end %}
+
+  @[ThreadLocal]
+  @@silenced_panic = false
+
+  def self.silenced_panic? : Bool
+    @@silenced_panic
+  end
+
+  def self.silenced_panic=(@@silenced_panic : Bool)
+  end
 end
 
 # Prints a message on STDERR and immediately exits the program with an error
@@ -85,26 +95,28 @@ end
 # will exit with an error status.
 @[NoInline]
 def panic!(format, *args) : NoReturn
-  {% if flag?(:debug) %} debugger {% end %}
+  # {% if flag?(:debug) %} debugger {% end %}
 
-  Nano.print_error("panic: ")
-  Nano.print_error(format, *args)
-  Nano.print_error("\n")
+  unless Nano.silenced_panic?
+    Nano.print_error("panic: ")
+    Nano.print_error(format, *args)
+    Nano.print_error("\n")
 
-  {% if flag?(:win32) %}
-    # TODO: unwind stack on windows
-  {% else %}
-    Nano.unwind_stack do |ip|
-      if frame = Nano.decode_frame(ip)
-        offset, symbol, file = frame
-        symbol ||= "??".to_unsafe
-        file ||= "??".to_unsafe
-        Nano.print_error("  [0x%lx] %s +%lld in %s\n", ip, symbol, offset, file)
-      else
-        Nano.print_error("  [0x%lx] ???\n", ip)
+    {% if flag?(:win32) %}
+      # TODO: unwind stack on windows
+    {% else %}
+      Nano.unwind_stack do |ip|
+        if frame = Nano.decode_frame(ip)
+          offset, symbol, file = frame
+          symbol ||= "??".to_unsafe
+          file ||= "??".to_unsafe
+          Nano.print_error("  [0x%lx] %s +%lld in %s\n", ip, symbol, offset, file)
+        else
+          Nano.print_error("  [0x%lx] ???\n", ip)
+        end
       end
-    end
-  {% end %}
+    {% end %}
+  end
 
   if Nano::Thread.main?
     LibC.exit(1)
