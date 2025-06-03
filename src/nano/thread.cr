@@ -5,10 +5,8 @@
   lib LibC
     fun _endthreadex(LibC::UInt) : NoReturn
   end
-end
 {% else %}
   require "c/pthread"
-  require "c/sched"
 
   lib LibC
     {% if flag?(:darwin) || flag?(:bsd) %}
