@@ -103,7 +103,11 @@ struct Float32
   end
 
   def **(other : Int32) : Float32
-    LibM.powi_f32(self, other)
+    {% if flag?(:win32) %}
+      self ** other.to_f32
+    {% else %}
+      LibM.powi_f32(self, other)
+    {% end %}
   end
 
   def round : Float32
@@ -144,7 +148,11 @@ struct Float64
   end
 
   def **(other : Int32) : Float64
-    LibM.powi_f64(self, other)
+    {% if flag?(:win32) %}
+      self ** other.to_f64
+    {% else %}
+      LibM.powi_f64(self, other)
+    {% end %}
   end
 
   def ceil : Float64

@@ -1,5 +1,7 @@
+require "c/handleapi"
 require "c/process"
 require "c/processthreadsapi"
+require "c/synchapi"
 
 lib LibC
   fun _endthreadex(LibC::UInt) : NoReturn
@@ -51,9 +53,9 @@ struct Nano::Thread
   end
 
   private def self.create_impl(start : Proc(Void*, UInt32), data : Void*) : self
-    handle = _beginthreadex(nil, 0, start, data, 0, nil)
-    errno!("_beginthreadex") if handle == 0
-    new(LibC::HANDLE.new(handle))
+    handle = LibC._beginthreadex(nil, 0, start, data, 0, nil)
+    errno!("_beginthreadex") if handle == LibC::INVALID_HANDLE_VALUE
+    new(handle)
   end
 
   @[AlwaysInline]

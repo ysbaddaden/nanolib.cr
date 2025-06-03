@@ -184,6 +184,14 @@ end
         unsafe_mod other
       end
     end
+
+    def leading_zeros_count : self
+      Intrinsics.countleading{{bits}}(self, false)
+    end
+
+    def trailing_zeros_count : self
+      Intrinsics.counttrailing{{bits}}(self, false)
+    end
   end
 
   struct UInt{{bits}}
@@ -213,6 +221,14 @@ end
         unsafe_mod(other)
       end
     end
+
+    def leading_zeros_count : Int{{bits}}
+      Intrinsics.countleading{{bits}}(self, false)
+    end
+
+    def trailing_zeros_count : Int{{bits}}
+      Intrinsics.counttrailing{{bits}}(self, false)
+    end
   end
 {% end %}
 
@@ -240,3 +256,7 @@ struct Int128
   MIN = new(1) << 127
   MAX = ~MIN
 end
+
+{% if flag?(:win32) %}
+  require "crystal/compiler_rt"
+{% end %}

@@ -1,4 +1,6 @@
+require "c/stdint"
 require "c/stdlib"
+require "c/profileapi"
 
 module Nano
   def self.exit(status : Int32) : NoReturn

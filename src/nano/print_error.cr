@@ -10,7 +10,7 @@ require "c/stdio"
 module Nano
   {% if flag?(:win32) %}
     def self.print_error(message : String, *args) : Nil
-      if args.empty?
+      if args.size == 0
         LibC.WriteFile(LibC.GetStdHandle(LibC::STD_ERROR_HANDLE), message.to_unsafe, message.bytesize, out _, nil)
       else
         __snprintf(message, *args) do |ptr, size|

@@ -1,6 +1,4 @@
 require "c/stdlib"
-require "c/sys/time"
-require "c/time"
 require "../nano"
 require "../nano/print_error"
 require "./autorun"

@@ -4,5 +4,9 @@ fun __crystal_once(flag : Bool*, initializer : Void*)
   flag.value = true
   Proc(Nil).new(initializer, Pointer(Void).null)
 
-  Intrinsics.unreachable unless flag.value
+  unless flag.value
+    # Intrinsics.unreachable
+    x = uninitialized NoReturn
+    x
+  end
 end
