@@ -1,4 +1,5 @@
 require "./test_helper"
+require "../src/box"
 
 struct BoxTest < Nano::Test
   def test_allocated_on_the_stack

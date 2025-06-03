@@ -3,18 +3,19 @@ require "../src/test"
 
 struct Nano::Test
   macro assert_panic
-    %start_routine = ->(data : Void*) do
-      Nano.silenced_panic = true
-      {{yield}}
-      Pointer(Void).null
-    end
+    {% if flag?(:wasi) %}
+      skip
+    {% else %}
+      completed = false
 
-    %errnum = LibC.pthread_create(out %th, nil, %start_routine, nil)
-    panic! "pthread_create(3) failed" unless %errnum == 0
+      thread = Nano::Thread.create(->(completed : Bool*) {
+        Nano.silenced_panic = true
+        {{yield}}
+        completed.value = true
+      }, pointerof(completed))
+      thread.join
 
-    %errnum = LibC.pthread_join(%th, out %retval)
-    panic! "pthread_join(3) failed" unless %errnum == 0
-
-    refute %retval.null?
+      refute completed
+    {% end %}
   end
 end

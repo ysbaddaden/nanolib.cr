@@ -1,4 +1,3 @@
-require "c/string"
 require "./test"
 require "../argv"
 
@@ -14,4 +13,4 @@ Nano::Test.configure do |options|
 end
 
 success = Nano::Test.run
-LibC.exit(success ? 0 : 1)
+Nano.exit(success ? 0 : 1)

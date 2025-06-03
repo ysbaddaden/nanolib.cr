@@ -2,6 +2,7 @@ require "c/stdlib"
 require "c/sys/time"
 require "c/time"
 require "../nano"
+require "../nano/print_error"
 require "./autorun"
 require "./options"
 require "./result"
@@ -56,31 +57,24 @@ abstract struct Nano::Test
     {% end %}
 
     if @@options.verbose?
-      LibC.dprintf(2, "\n")
+      Nano.print_error("\n")
     else
-      LibC.dprintf(2, "\n\n")
+      Nano.print_error("\n\n")
     end
 
     color, reset = colors(status)
 
-    LibC.dprintf(2, "Finished in %s\n", humanize(total_duration))
-    LibC.dprintf(2, "%s%d runs, %d failures, %d skips%s\n", color, count, failures, skips, reset)
+    Nano.print_error("Finished in %s\n", humanize(total_duration))
+    Nano.print_error("%s%d runs, %d failures, %d skips%s\n", color, count, failures, skips, reset)
 
     !failed?
   end
 
   protected def self.measure : Float64?
-    start = clock_gettime(LibC::CLOCK_MONOTONIC)
+    start = Nano.clock_monotonic
     yield
-    stop = clock_gettime(LibC::CLOCK_MONOTONIC)
+    stop = Nano.clock_monotonic
     (stop[0] &- start[0]).to_f + (stop[1] &- start[1]).to_f / 1_000_000_000.0
-  end
-
-  private def self.clock_gettime(clock : LibC::ClockidT) : {Int64, Int32}
-    unless LibC.clock_gettime(clock, out tp) == 0
-      errno! "clock_gettime"
-    end
-    {tp.tv_sec.to_i64!, tp.tv_nsec.to_i32!}
   end
 
   protected def self.report(result : Result) : Nil
@@ -101,9 +95,9 @@ abstract struct Nano::Test
     color, reset = colors(result.status)
 
     if @@options.verbose?
-      LibC.dprintf(2, "%s#%s (%s) = %s%s%s\n", result.suite_name, result.method_name, humanize(result.duration), color, char, reset)
+      Nano.print_error("%s#%s (%s) = %s%s%s\n", result.suite_name, result.method_name, humanize(result.duration), color, char, reset)
     else
-      LibC.dprintf(2, "%s%s%s", color, char, reset)
+      Nano.print_error("%s%s%s", color, char, reset)
     end
   end
 
@@ -177,16 +171,16 @@ abstract struct Nano::Test
 
   macro assert(expression, file = __FILE__, line = __LINE__)
     if !!({{expression}}) == false
-      LibC.dprintf(2, "Expected %s to be truthy\n", {{expression.stringify}})
-      LibC.dprintf(2, "  at %s:%d\n", {{file}}, {{line}})
+      Nano.print_error("Expected %s to be truthy\n", {{expression.stringify}})
+      Nano.print_error("  at %s:%d\n", {{file}}, {{line}})
       return ::Nano::Test::Status::FAILURE
     end
   end
 
   macro refute(expression, file = __FILE__, line = __LINE__)
     if !!({{expression}}) == true
-      LibC.dprintf(2, "Expected %s to be falsy\n", {{expression.stringify}})
-      LibC.dprintf(2, "  at %s:%d\n", {{file}}, {{line}})
+      Nano.print_error("Expected %s to be falsy\n", {{expression.stringify}})
+      Nano.print_error("  at %s:%d\n", {{file}}, {{line}})
       return ::Nano::Test::Status::FAILURE
     end
   end

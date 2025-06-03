@@ -35,3 +35,12 @@ end
 fun __crystal_raise_overflow : NoReturn
   panic! "overflow error"
 end
+
+# :nodoc:
+fun __crystal_raise_cast_failed(from_type : Void*, to_type : Void*, location : Void*) : NoReturn
+  if location
+    panic! "Cast from %s to %s failed, at %s", from_type.as(String), to_type.as(String), location.as(String)
+  else
+    panic! "Cast from %s to %s failed", from_type.as(String), to_type.as(String)
+  end
+end

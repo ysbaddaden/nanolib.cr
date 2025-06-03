@@ -3,6 +3,8 @@ require "primitives"
 require "c/stddef"
 require "intrinsics"
 
+require "./sys"
+
 require "./char"
 require "./enum"
 require "./float"
