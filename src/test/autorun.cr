@@ -1,16 +1,13 @@
 require "c/string"
 require "./test"
+require "../argv"
 
 Nano::Test.configure do |options|
-  i = 0
-  while (i &+= 1) < ARGC_UNSAFE
-    value = (ARGV_UNSAFE + i).value
-
-    if LibC.strcmp("-v", value) == 0 || LibC.strcmp("--verbose", value) == 0
+  ARGV.each do |arg|
+    case arg
+    when "-v", "--verbose"
       options.value.verbose = true
-    end
-
-    if LibC.strcmp("--no-color", value) == 0
+    when "--no-color"
       options.value.colorful = false
     end
   end
