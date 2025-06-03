@@ -85,7 +85,16 @@ struct Pointer(T)
 
   @[AlwaysInline]
   def memcmp(other : Pointer(T), count : Int) : Int32
-    LibC.memcmp(self.as(Void*), other.as(Void*), count * sizeof(T))
+    a = self.as(UInt8*)
+    b = other.as(UInt8*)
+
+    count.times do |i|
+      return a.value.to_i32! &- b.value.to_i32! unless a.value == b.value
+      a += 1
+      b += 1
+    end
+
+    0
   end
 
   @[AlwaysInline]

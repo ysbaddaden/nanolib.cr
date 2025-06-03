@@ -1,8 +1,12 @@
-lib LibC
-  fun strncmp(Char*, Char*, SizeT) : Int
-end
-
 class String
+  def self.bytesize(pointer : UInt8*) : Int32
+    bytesize = 0
+    until (pointer + bytesize).value == 0_u8
+      bytesize &+= 1
+    end
+    bytesize
+  end
+
   @[AlwaysInline]
   def to_unsafe : UInt8*
     pointerof(@c)
@@ -16,12 +20,19 @@ class String
   @[AlwaysInline]
   def ==(other : String) : Bool
     bytesize == other.bytesize &&
-      LibC.strncmp(self, other, bytesize) == 0
+      to_unsafe.memcmp(other.to_unsafe, bytesize) == 0
+  end
+
+  @[AlwaysInline]
+  def ==(other : Bytes) : Bool
+    bytesize == other.size &&
+      to_unsafe.memcmp(other.to_unsafe, bytesize) == 0
   end
 
   # @[AlwaysInline]
   # def ==(other : UInt8*) : Bool
-  #   LibC.strcmp(self, other) == 0
+  #   bytesize == String.bytesize(other) &&
+  #     to_unsafe.memcmp(other.to_unsafe, bytesize) == 0
   # end
 
   @[AlwaysInline]
